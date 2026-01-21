@@ -60,3 +60,11 @@ button {
     border-radius: 5px;
     font-weight: bold;
 }
+
+button:hover {
+    background: #528ecc;
+}
+
+button:active {
+    background: #3b6ea0;
+}
