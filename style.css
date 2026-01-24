@@ -1,62 +1,175 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== Themes ===== */
+body.theme-green { --neon: #00ff88; }
+body.theme-blue  { --neon: #00e5ff; }
+body.theme-red   { --neon: #ff0055; }
+
+/* ===== Modes ===== */
+body.mode-dark {
+  --bg: #050505;
+  --panel: rgba(255,255,255,0.06);
+  --text: #f5f7fa;
+  --muted: #c9d1d9;
+  --control-bg: #111;
+  --control-text: #ffffff;
+}
+
+body.mode-light {
+  --bg: #ffffff;
+  --panel: rgba(0,0,0,0.04);
+  --text: #111111;
+  --muted: #333333;
+  --control-bg: #ffffff;
+  --control-text: #000000;
+}
 
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #282c34;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  transition: background 0.6s ease, color 0.4s ease;
 }
 
+/* ===== Top Bar ===== */
+.top-bar {
+  position: fixed;
+  top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  z-index: 10;
+  font-size: 0.9rem;
+}
+
+.top-bar label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+}
+
+select, button, input[type=range] {
+  background: var(--control-bg);
+  color: var(--control-text);
+  border: 2px solid var(--neon);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: 
+    box-shadow 0.3s ease,
+    transform 0.2s ease,
+    border-color 0.4s ease;
+}
+
+/* Neon hover glow */
+select:hover, button:hover {
+  box-shadow: 0 0 12px var(--neon), 0 0 25px var(--neon);
+  transform: translateY(-1px);
+}
+
+option {
+  background: var(--control-bg);
+  color: var(--control-text);
+}
+
+/* ===== Container ===== */
 .container {
-    width: 80%;
-    max-width: 700px;
-    text-align: center;
+  width: min(92%, 720px);
+  text-align: center;
+  padding: 25px;
+  border-radius: 16px;
+  border: 2px solid var(--neon);
+  backdrop-filter: blur(10px);
+  background: var(--panel);
+  box-shadow:
+    0 0 var(--glow,20px) var(--neon),
+    inset 0 0 10px rgba(255,255,255,0.08);
+  transition:
+    border-color 0.6s ease,
+    box-shadow 0.6s ease,
+    background 0.6s ease;
 }
 
+/* ===== Title ===== */
+h1 {
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, var(--neon), #ffffff, var(--neon));
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: titleGlow 5s ease infinite;
+}
+
+@keyframes titleGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== Stats ===== */
 .stats {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    font-size: 1.2rem;
-    font-weight: bold;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+  color: var(--muted);
+  font-weight: 600;
 }
 
+.stats span {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--neon);
+}
+
+/* ===== Quote ===== */
 .quote-container {
-    background: #333;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    line-height: 1.6;
-    letter-spacing: 1px;
-    text-align: left;
+  background: rgba(0,0,0,0.04);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  text-align: left;
+  color: var(--text);
 }
 
-.correct { color: #98c379; }
-.incorrect { color: #e06c75; border-bottom: 2px solid #e06c75; }
+body.mode-dark .quote-container {
+  background: rgba(255,255,255,0.05);
+}
 
+.correct { color: var(--neon); }
+.incorrect { color: #ff4d4d; border-bottom: 2px solid #ff4d4d; }
+
+/* ===== Input ===== */
 textarea {
-    width: 100%;
-    height: 100px;
-    background: transparent;
-    border: 2px solid #555;
-    color: white;
-    padding: 10px;
-    font-size: 1.1rem;
-    border-radius: 8px;
-    outline: none;
-    resize: none;
+  width: 100%;
+  height: 110px;
+  background: transparent;
+  border: 2px solid var(--neon);
+  color: var(--text);
+  padding: 10px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  outline: none;
+  resize: none;
+  margin-bottom: 10px;
 }
 
-button {
-    margin-top: 20px;
-    padding: 10px 25px;
-    cursor: pointer;
-    background: #61afef;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-}
+/* ===== Confetti Canvas ===== */
+#confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+
