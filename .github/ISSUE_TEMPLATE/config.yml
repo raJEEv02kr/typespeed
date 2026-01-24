@@ -1,6 +1,0 @@
-# Configuration for issue templates
-blank_issues_enabled: false
-contact_links:
-  - name: Support
-    url: https://example.com/support
-    about: Use this link for account or billing support.
