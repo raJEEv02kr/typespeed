@@ -1,0 +1,61 @@
+/* ============================= */
+/* Virtual Keyboard Visualizer   */
+/* ============================= */
+
+#keyboard-visualizer {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Keyboard rows */
+.kb-row {
+  display: flex;
+  gap: 6px;
+}
+
+/* Individual key */
+.kb-key {
+  min-width: 38px;
+  padding: 10px;
+  background: #0f0f0f;
+  border: 1px solid #00ff99;
+  color: #00ff99;
+  border-radius: 6px;
+  font-size: 13px;
+  text-align: center;
+  user-select: none;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+/* Wider keys */
+.kb-key.wide {
+  min-width: 80px;
+}
+
+/* Space bar */
+.kb-key.space {
+  min-width: 300px;
+}
+
+/* Pop animation on key press */
+.kb-key.active {
+  transform: scale(1.25);
+  box-shadow: 0 0 18px rgba(0, 255, 153, 0.95);
+}
+
+/* Optional: reduce visual noise on small screens */
+@media (max-width: 768px) {
+  .kb-key {
+    min-width: 32px;
+    font-size: 12px;
+  }
+
+  .kb-key.space {
+    min-width: 200px;
+  }
+}
