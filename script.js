@@ -45,8 +45,12 @@ function applyPreferences() {
     mode: "dark",
     glow: 20
   };
+
+  // 🔥 Supports new MAC theme automatically
   document.body.className = `theme-${prefs.theme} mode-${prefs.mode}`;
+
   document.documentElement.style.setProperty("--glow", prefs.glow + "px");
+
   themeSelect.value = prefs.theme;
   modeSelect.value = prefs.mode;
   glowSlider.value = prefs.glow;
@@ -62,19 +66,34 @@ function savePreferences() {
   localStorage.setItem("prefs", JSON.stringify(prefs));
 }
 
-themeSelect.addEventListener("change", () => { setThemeAnimated(); savePreferences(); });
-modeSelect.addEventListener("change", () => { setThemeAnimated(); savePreferences(); });
+themeSelect.addEventListener("change", () => {
+  setThemeAnimated();
+  savePreferences();
+});
+
+modeSelect.addEventListener("change", () => {
+  setThemeAnimated();
+  savePreferences();
+});
+
 glowSlider.addEventListener("input", () => {
   document.documentElement.style.setProperty("--glow", glowSlider.value + "px");
   savePreferences();
 });
 
+// ===== THEME ANIMATION (UPDATED) =====
 function setThemeAnimated() {
   document.body.style.opacity = "0";
+
   setTimeout(() => {
+
+    // 🔥 This line automatically supports "mac"
     document.body.className = `theme-${themeSelect.value} mode-${modeSelect.value}`;
+
     document.documentElement.style.setProperty("--glow", glowSlider.value + "px");
+
     document.body.style.opacity = "1";
+
   }, 250);
 }
 
@@ -196,10 +215,12 @@ window.addEventListener("resize", resizeCanvas);
 
 function launchConfetti() {
   const theme = themeSelect.value;
+
   const colors = {
     green: ["#00ff88", "#66ffcc", "#33ffaa"],
     blue: ["#00e5ff", "#66f2ff", "#33ddff"],
-    red: ["#ff0055", "#ff6699", "#ff3366"]
+    red: ["#ff0055", "#ff6699", "#ff3366"],
+    mac: ["#cccccc", "#eeeeee", "#aaaaaa"] // 🔥 Mac neutral confetti
   };
 
   const palette = colors[theme] || ["#ffffff"];
@@ -243,3 +264,27 @@ function updateConfetti() {
     requestAnimationFrame(updateConfetti);
   }
 }
+/* ================================= */
+/* ===== MAC GLASS PARALLAX ========= */
+/* ================================= */
+
+const macPanel = document.querySelector(".container");
+
+document.addEventListener("mousemove",(e)=>{
+
+    // run only for mac theme
+    if(!document.body.classList.contains("theme-mac")) return;
+    if(!macPanel) return;
+
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    const offsetX = (e.clientX - centerX) / 40;
+    const offsetY = (e.clientY - centerY) / 40;
+
+    macPanel.style.transform = `
+        rotateY(${offsetX}deg)
+        rotateX(${-offsetY}deg)
+        translateZ(8px)
+    `;
+});

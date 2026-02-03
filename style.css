@@ -1,175 +1,478 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* ===== Themes ===== */
-body.theme-green { --neon: #00ff88; }
-body.theme-blue  { --neon: #00e5ff; }
-body.theme-red   { --neon: #ff0055; }
+/* ================================= */
+/* ===== THEMES ==================== */
+/* ================================= */
 
-/* ===== Modes ===== */
-body.mode-dark {
-  --bg: #050505;
-  --panel: rgba(255,255,255,0.06);
-  --text: #f5f7fa;
-  --muted: #c9d1d9;
-  --control-bg: #111;
-  --control-text: #ffffff;
+body.theme-green {
+    --neon: #00ff88;
+}
+
+body.theme-blue {
+    --neon: #00e5ff;
+}
+
+body.theme-red {
+    --neon: #ff0055;
+}
+
+body.theme-mac {
+    --neon: #a1a1a6;
+}
+
+/* ================================= */
+/* ===== MODES ===================== */
+/* ================================= */
+
+body.mode-dark:not(.theme-mac) {
+    --bg: #050505;
+    --panel: rgba(255, 255, 255, .06);
+    --text: #f5f7fa;
+    --muted: #c9d1d9;
+    --control-bg: #111;
+    --control-text: #ffffff;
 }
 
 body.mode-light {
-  --bg: #ffffff;
-  --panel: rgba(0,0,0,0.04);
-  --text: #111111;
-  --muted: #333333;
-  --control-bg: #ffffff;
-  --control-text: #000000;
+    --bg: #ffffff;
+    --panel: rgba(0, 0, 0, .04);
+    --text: #111111;
+    --muted: #333333;
+    --control-bg: #ffffff;
+    --control-text: #000000;
 }
+
+/* ================================= */
+/* ===== BASE BODY ================= */
+/* ================================= */
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  transition: background 0.6s ease, color 0.4s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    transition: background .6s ease, color .4s ease;
+    position: relative;
 }
 
-/* ===== Top Bar ===== */
+/* ================================= */
+/* ===== MAC WALLPAPER GLASS ======= */
+/* ================================= */
+
+body.theme-mac {
+    background: url("./background_wallpaper.jpg") center/cover no-repeat fixed !important;
+}
+
+/* blur overlay */
+body.theme-mac::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: -1;
+}
+
+/* ================================= */
+/* ===== TOP BAR =================== */
+/* ================================= */
+
 .top-bar {
-  position: fixed;
-  top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  z-index: 10;
-  font-size: 0.9rem;
+    position: fixed;
+    top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    z-index: 10;
+    font-size: .9rem;
 }
 
 .top-bar label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
 }
 
-select, button, input[type=range] {
-  background: var(--control-bg);
-  color: var(--control-text);
-  border: 2px solid var(--neon);
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-weight: 600;
-  transition: 
-    box-shadow 0.3s ease,
-    transform 0.2s ease,
-    border-color 0.4s ease;
+select,
+button,
+input[type=range] {
+    background: var(--control-bg);
+    color: var(--control-text);
+    border: 2px solid var(--neon);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: 600;
 }
 
-/* Neon hover glow */
-select:hover, button:hover {
-  box-shadow: 0 0 12px var(--neon), 0 0 25px var(--neon);
-  transform: translateY(-1px);
+select:hover,
+button:hover {
+    box-shadow: 0 0 12px var(--neon);
 }
 
-option {
-  background: var(--control-bg);
-  color: var(--control-text);
-}
+/* ================================= */
+/* ===== CONTAINER ================= */
+/* ================================= */
 
-/* ===== Container ===== */
 .container {
-  width: min(92%, 720px);
-  text-align: center;
-  padding: 25px;
-  border-radius: 16px;
-  border: 2px solid var(--neon);
-  backdrop-filter: blur(10px);
-  background: var(--panel);
-  box-shadow:
-    0 0 var(--glow,20px) var(--neon),
-    inset 0 0 10px rgba(255,255,255,0.08);
-  transition:
-    border-color 0.6s ease,
-    box-shadow 0.6s ease,
-    background 0.6s ease;
+    width: min(92%, 720px);
+    text-align: center;
+    padding: 28px;
+    border-radius: 18px;
+    backdrop-filter: blur(20px);
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, .08);
+    box-shadow:
+        0 0 var(--glow, 20px) var(--neon),
+        0 25px 70px rgba(0, 0, 0, .6);
 }
 
-/* ===== Title ===== */
+/* REAL MAC GLASS */
+body.theme-mac .container {
+    background: rgba(28, 28, 30, .28);
+    /* 🔥 LOWER OPACITY */
+    backdrop-filter: blur(26px);
+    -webkit-backdrop-filter: blur(26px);
+    border: 1px solid rgba(255, 255, 255, .12);
+}
+
+/* ================================= */
+/* ===== TITLE (FIXED STYLE) ======= */
+/* ================================= */
+
 h1 {
-  margin-bottom: 15px;
-  background: linear-gradient(90deg, var(--neon), #ffffff, var(--neon));
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: titleGlow 5s ease infinite;
+    margin-bottom: 18px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    font-size: 2rem;
+    color: #f5f5f7;
+    /* static clean macOS look */
+    text-shadow: 0 0 12px rgba(255, 255, 255, .15);
 }
 
-@keyframes titleGlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+/* ================================= */
+/* ===== STATS ===================== */
+/* ================================= */
 
-/* ===== Stats ===== */
 .stats {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 10px;
-  margin-bottom: 15px;
-  color: var(--muted);
-  font-weight: 600;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+    color: var(--muted);
+    font-weight: 600;
 }
 
+/* LIGHTER PREMIUM NUMBERS */
 .stats span {
-  display: block;
-  font-size: 1.2rem;
-  color: var(--neon);
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, .85);
 }
 
-/* ===== Quote ===== */
+/* ================================= */
+/* ===== QUOTE ===================== */
+/* ================================= */
+
 .quote-container {
-  background: rgba(0,0,0,0.04);
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  font-size: 1.3rem;
-  line-height: 1.6;
-  text-align: left;
-  color: var(--text);
+    background: rgba(40, 40, 45, .45);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    text-align: left;
 }
 
-body.mode-dark .quote-container {
-  background: rgba(255,255,255,0.05);
+.correct {
+    color: var(--neon);
 }
 
-.correct { color: var(--neon); }
-.incorrect { color: #ff4d4d; border-bottom: 2px solid #ff4d4d; }
+.incorrect {
+    color: #ff4d4d;
+    border-bottom: 2px solid #ff4d4d;
+}
 
-/* ===== Input ===== */
+/* ================================= */
+/* ===== INPUT ===================== */
+/* ================================= */
+
 textarea {
-  width: 100%;
-  height: 110px;
-  background: transparent;
-  border: 2px solid var(--neon);
-  color: var(--text);
-  padding: 10px;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  outline: none;
-  resize: none;
-  margin-bottom: 10px;
+    width: 100%;
+    height: 110px;
+    background: rgba(0, 0, 0, .25);
+    border: 2px solid var(--neon);
+    color: #ffffff;
+    padding: 10px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    outline: none;
+    resize: none;
+    margin-bottom: 12px;
 }
 
-/* ===== Confetti Canvas ===== */
-#confetti {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
+/* ================================= */
+/* ===== MAC KEYBOARD LOOK ========= */
+/* ================================= */
 
+body.theme-mac .kb-key {
+    border-radius: 8px;
+    background: #111;
+    box-shadow:
+        inset 0 -2px 0 rgba(255, 255, 255, .08),
+        0 3px 8px rgba(0, 0, 0, .6);
+}
+
+/* ================================= */
+/* ===== RESTART BUTTON FIX ======== */
+/* ================================= */
+
+#reset-btn {
+    margin-top: 18px;
+    /* 🔥 pushed downward */
+}
+
+/* ================================= */
+/* ===== FLOATING GLASS SHADOW ===== */
+/* ================================= */
+
+body.theme-mac .container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    pointer-events: none;
+    box-shadow:
+        inset 0 0 20px rgba(255, 255, 255, .06);
+}
+body.theme-mac .container {
+    background: rgba(28, 28, 30, 0.38);
+    /* lower opacity */
+    backdrop-filter: blur(22px);
+}
+
+/* ================================= */
+/* ===== CONFETTI ================== */
+/* ================================= */
+
+#confetti {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* ================================= */
+/* ===== APPLE GLASS SHINE ========= */
+/* ================================= */
+
+body.theme-mac .container {
+    position: relative;
+    overflow: hidden;
+}
+
+/* moving light reflection layer */
+body.theme-mac .container::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: linear-gradient(120deg,
+            transparent 30%,
+            rgba(255, 255, 255, 0.08) 45%,
+            rgba(255, 255, 255, 0.18) 50%,
+            rgba(255, 255, 255, 0.08) 55%,
+            transparent 70%);
+    transform: translateX(-60%) rotate(25deg);
+    pointer-events: none;
+    transition: transform .15s linear;
+}
+
+body.theme-mac .container {
+    box-shadow:
+        0 0 var(--glow, 20px) rgba(255, 255, 255, 0.12),
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        inset 0 0 10px rgba(255, 255, 255, 0.05);
+}
+/* ================================= */
+/* ===== MAC TEXT COLOR FIX ======== */
+/* ================================= */
+
+body.theme-mac {
+    --text: #e9ecf1;
+    --muted: #aeb4bd;
+    --control-bg: rgba(30, 30, 34, 0.7);
+    --control-text: #ffffff;
+}
+
+/* Force stats labels visible */
+body.theme-mac .stats {
+    color: var(--muted);
+}
+
+body.theme-mac .stats span {
+    color: #ffffff;
+    /* lighter numbers */
+    font-weight: 700;
+}
+
+/* ================================= */
+/* ===== MAC TITLE STYLE =========== */
+/* ================================= */
+
+body.theme-mac h1 {
+    animation: none !important;
+    background: none !important;
+    -webkit-text-fill-color: unset !important;
+    color: #f5f7fa;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-shadow:
+        0 0 12px rgba(255, 255, 255, 0.08);
+}
+
+
+/* ================================= */
+/* ===== PINK GLITTER SHIMMER ====== */
+/* ================================= */
+
+body.theme-mac h1 {
+    font-weight: 600;
+    letter-spacing: 0.7px;
+    position: relative;
+
+    /* base text color */
+    color: #f3f5f7;
+
+    /* glitter shimmer gradient */
+    background: linear-gradient(115deg,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 182, 193, 0.9) 20%,
+            /* light pink highlight */
+            rgba(255, 105, 180, 0.8) 30%,
+            /* glitter pink */
+            rgba(255, 182, 193, 0.9) 40%,
+            rgba(255, 255, 255, 0.15) 60%);
+
+    background-size: 250% 100%;
+    background-repeat: no-repeat;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: macPinkShimmer 2.6s linear infinite;
+}
+
+/* shimmer movement */
+@keyframes macPinkShimmer {
+    0% {
+        background-position: -250% 0;
+    }
+
+    100% {
+        background-position: 250% 0;
+    }
+}
+
+/* ================================= */
+/* ===== MACBOOK KEYBOARD STYLE ==== */
+/* ================================= */
+
+body.theme-mac .kb-key {
+
+    /* Mac graphite key color */
+    background: rgba(32, 32, 36, 0.75);
+
+    /* remove neon borders */
+    border: none;
+
+    /* Mac key shape */
+    border-radius: 7px;
+
+    /* subtle depth like macOS */
+    box-shadow:
+        inset 0 -2px 0 rgba(255, 255, 255, 0.06),
+        inset 0 2px 3px rgba(0, 0, 0, 0.45),
+        0 1px 2px rgba(0, 0, 0, 0.6);
+
+    /* Mac font feel */
+    color: #e6e6e6;
+
+    transition:
+        transform .12s ease,
+        box-shadow .12s ease,
+        background .15s ease;
+}
+
+/* key press effect (mac style) */
+body.theme-mac .kb-key.active {
+    transform: translateY(1px);
+
+    box-shadow:
+        inset 0 3px 6px rgba(0, 0, 0, 0.6),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* hover feel */
+body.theme-mac .kb-key:hover {
+    background: rgba(48, 48, 52, 0.85);
+}
+
+/* ================================= */
+/* ===== MAC KEY PRESS ENHANCED ==== */
+/* ================================= */
+
+body.theme-mac .kb-key {
+    position: relative;
+    overflow: hidden;
+}
+
+/* stronger press feedback */
+body.theme-mac .kb-key.active {
+
+    transform: translateY(2px) scale(0.96);
+
+    background: rgba(18, 18, 22, 0.95);
+
+    box-shadow:
+        inset 0 4px 8px rgba(0, 0, 0, 0.7),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* subtle glass flash when pressed */
+body.theme-mac .kb-key.active::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center,
+            rgba(255, 255, 255, 0.18),
+            transparent 60%);
+    opacity: 0.8;
+    pointer-events: none;
+}
+body.theme-mac .kb-key {
+    transition:
+        transform .08s cubic-bezier(.25, .9, .3, 1.2),
+        box-shadow .08s ease,
+        background .08s ease;
+}
+/* ================================= */
+/* ===== MAC PARALLAX DEPTH ========= */
+/* ================================= */
+
+body.theme-mac {
+    perspective: 1200px;
+}
+
+body.theme-mac .container {
+    transform-style: preserve-3d;
+    will-change: transform;
+}
