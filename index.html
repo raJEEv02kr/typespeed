@@ -1,68 +1,92 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <title>Neon Typing Speed Test</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="keyboard-visualizer.css" />
-  </head>
-  <body>
+</head>
+
+<body>
+
     <div class="top-bar">
-      <label
-        >Difficulty:
-        <select id="difficulty">
-          <option value="easy">Easy</option>
-          <option value="medium" selected>Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-      </label>
 
-      <label
-        >Theme:
-        <select id="theme">
-            <option value="green">Green</option>
-            <option value="blue">Blue</option>
-            <option value="red">Red</option>
-            <option value="mac">Mac</option>
-        </select>
-      </label>
+        <label>
+            Difficulty:
+            <select id="difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </label>
 
-      <label
-        >Mode:
-        <select id="mode">
-          <option value="dark" selected>Dark</option>
-          <option value="light">Light</option>
-        </select>
-      </label>
+        <label>
+            Theme:
+            <select id="theme">
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="red">Red</option>
+                <option value="mac">Mac</option>
+            </select>
+        </label>
 
-      <label
-        >Glow:
-        <input type="range" id="glow-slider" min="5" max="50" value="20" />
-      </label>
+        <label>
+            Mode:
+            <select id="mode">
+                <option value="dark" selected>Dark</option>
+                <option value="light">Light</option>
+            </select>
+        </label>
+
+        <label>
+            Glow:
+            <input type="range" id="glow-slider" min="5" max="50" value="20" />
+        </label>
+
+        <!-- ⭐ UPDATED AUDIO CONTROL WITH SPEED -->
+        <label>
+            Audio:
+            <button id="audio-btn">Play</button>
+
+            <select id="audio-speed">
+                <option value="0.75">0.75x</option>
+                <option value="1" selected>1x</option>
+                <option value="1.25">1.25x</option>
+            </select>
+        </label>
+
     </div>
 
     <div class="container">
-      <h1>Typing Speed Test</h1>
 
-      <div class="stats">
-        <div>WPM<br /><span id="wpm">0</span></div>
-        <div>Accuracy<br /><span id="accuracy">100</span>%</div>
-        <div>Time<br /><span id="timer">0</span>s</div>
-        <div>High Score<br /><span id="highscore">0</span></div>
-      </div>
+        <h1>Typing Speed Test</h1>
 
-      <div id="quote-display" class="quote-container"></div>
-      <textarea id="input-field" placeholder="Start typing here..."></textarea>
-      <!-- Virtual Keyboard Visualizer -->
-      <div id="keyboard-visualizer" aria-hidden="true"></div>
+        <div class="stats">
+            <div>WPM<br /><span id="wpm">0</span></div>
+            <div>Accuracy<br /><span id="accuracy">100</span>%</div>
+            <div>Time<br /><span id="timer">0</span>s</div>
+            <div>High Score<br /><span id="highscore">0</span></div>
+        </div>
 
-      <button id="reset-btn">Restart</button>
+        <div id="quote-display" class="quote-container"></div>
+
+        <textarea id="input-field" placeholder="Start typing here..."></textarea>
+
+        <!-- Virtual Keyboard Visualizer -->
+        <div id="keyboard-visualizer" aria-hidden="true"></div>
+
+        <button id="reset-btn">Restart</button>
+
     </div>
 
     <canvas id="confetti"></canvas>
 
     <script src="script.js"></script>
     <script src="keyboard-visualizer.js"></script>
-  </body>
+
+</body>
+
 </html>

@@ -32,6 +32,43 @@ const glowSlider = document.getElementById('glow-slider');
 const confettiCanvas = document.getElementById('confetti');
 const confettiCtx = confettiCanvas.getContext('2d');
 
+/* =============================== */
+/* AUDIO FEATURE (GLOBAL) */
+/* =============================== */
+
+const audioBtn = document.getElementById("audio-btn");
+const audioSpeedSelect = document.getElementById("audio-speed"); // ⭐ NEW
+const synth = window.speechSynthesis;
+let currentUtterance = null;
+
+function speakQuote() {
+
+  const text = quoteDisplay.innerText;
+  if (!text) return;
+
+  // Toggle behaviour
+  if (synth.speaking) {
+    synth.cancel();
+    audioBtn.innerText = "Play";
+    return;
+  }
+
+  currentUtterance = new SpeechSynthesisUtterance(text);
+
+  // ⭐ SPEED CONTROL
+  currentUtterance.rate = parseFloat(audioSpeedSelect.value);
+
+  synth.speak(currentUtterance);
+  audioBtn.innerText = "Stop";
+
+  currentUtterance.onend = () => {
+    audioBtn.innerText = "Play";
+  };
+}
+
+audioBtn.addEventListener("click", speakQuote);
+
+// ===== State =====
 let timer = 0;
 let interval = null;
 let isStarted = false;
@@ -46,9 +83,7 @@ function applyPreferences() {
     glow: 20
   };
 
-  // 🔥 Supports new MAC theme automatically
   document.body.className = `theme-${prefs.theme} mode-${prefs.mode}`;
-
   document.documentElement.style.setProperty("--glow", prefs.glow + "px");
 
   themeSelect.value = prefs.theme;
@@ -81,24 +116,24 @@ glowSlider.addEventListener("input", () => {
   savePreferences();
 });
 
-// ===== THEME ANIMATION (UPDATED) =====
+// ===== THEME ANIMATION =====
 function setThemeAnimated() {
   document.body.style.opacity = "0";
 
   setTimeout(() => {
-
-    // 🔥 This line automatically supports "mac"
     document.body.className = `theme-${themeSelect.value} mode-${modeSelect.value}`;
-
     document.documentElement.style.setProperty("--glow", glowSlider.value + "px");
-
     document.body.style.opacity = "1";
-
   }, 250);
 }
 
 // ===== Quote Rendering =====
 function renderNewQuote() {
+
+  // Stop audio when quote changes
+  if (synth.speaking) synth.cancel();
+  audioBtn.innerText = "Play";
+
   const difficulty = difficultySelect.value;
   const quotes = quotesByDifficulty[difficulty];
   const randomIndex = Math.floor(Math.random() * quotes.length);
@@ -123,6 +158,13 @@ difficultySelect.addEventListener("change", () => {
 
 // ===== Typing Logic =====
 inputField.addEventListener('input', () => {
+
+  // ⭐ AUTO PAUSE AUDIO WHEN USER STARTS TYPING
+  if (synth.speaking) {
+    synth.cancel();
+    audioBtn.innerText = "Play";
+  }
+
   if (!isStarted) {
     startTimer();
     isStarted = true;
@@ -195,6 +237,10 @@ resetBtn.addEventListener('click', resetTest);
 
 function resetTest() {
   clearInterval(interval);
+
+  if (synth.speaking) synth.cancel();
+  audioBtn.innerText = "Play";
+
   isStarted = false;
   timer = 0;
   timerDisplay.innerText = 0;
@@ -220,7 +266,7 @@ function launchConfetti() {
     green: ["#00ff88", "#66ffcc", "#33ffaa"],
     blue: ["#00e5ff", "#66f2ff", "#33ddff"],
     red: ["#ff0055", "#ff6699", "#ff3366"],
-    mac: ["#cccccc", "#eeeeee", "#aaaaaa"] // 🔥 Mac neutral confetti
+    mac: ["#cccccc", "#eeeeee", "#aaaaaa"]
   };
 
   const palette = colors[theme] || ["#ffffff"];
@@ -264,6 +310,7 @@ function updateConfetti() {
     requestAnimationFrame(updateConfetti);
   }
 }
+
 /* ================================= */
 /* ===== MAC GLASS PARALLAX ========= */
 /* ================================= */
@@ -272,19 +319,18 @@ const macPanel = document.querySelector(".container");
 
 document.addEventListener("mousemove",(e)=>{
 
-    // run only for mac theme
-    if(!document.body.classList.contains("theme-mac")) return;
-    if(!macPanel) return;
+  if(!document.body.classList.contains("theme-mac")) return;
+  if(!macPanel) return;
 
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
 
-    const offsetX = (e.clientX - centerX) / 40;
-    const offsetY = (e.clientY - centerY) / 40;
+  const offsetX = (e.clientX - centerX) / 40;
+  const offsetY = (e.clientY - centerY) / 40;
 
-    macPanel.style.transform = `
-        rotateY(${offsetX}deg)
-        rotateX(${-offsetY}deg)
-        translateZ(8px)
-    `;
+  macPanel.style.transform = `
+    rotateY(${offsetX}deg)
+    rotateX(${-offsetY}deg)
+    translateZ(8px)
+  `;
 });
