@@ -37,9 +37,32 @@ const confettiCtx = confettiCanvas.getContext('2d');
 /* =============================== */
 
 const audioBtn = document.getElementById("audio-btn");
-const audioSpeedSelect = document.getElementById("audio-speed"); // ⭐ NEW
+const audioSpeedSelect = document.getElementById("audio-speed");
+const voiceSelect = document.getElementById("voice-select"); // ⭐ NEW
 const synth = window.speechSynthesis;
+
 let currentUtterance = null;
+let voices = [];
+
+// ⭐ LOAD AVAILABLE VOICES
+function loadVoices() {
+
+  voices = synth.getVoices();
+
+  if (!voiceSelect) return;
+
+  voiceSelect.innerHTML = `<option value="">System Voice</option>`;
+
+  voices.forEach((voice, index) => {
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = voice.name;
+    voiceSelect.appendChild(option);
+  });
+}
+
+loadVoices();
+speechSynthesis.onvoiceschanged = loadVoices;
 
 function speakQuote() {
 
@@ -57,6 +80,11 @@ function speakQuote() {
 
   // ⭐ SPEED CONTROL
   currentUtterance.rate = parseFloat(audioSpeedSelect.value);
+
+  // ⭐ APPLY SELECTED VOICE
+  if (voiceSelect && voiceSelect.value !== "") {
+    currentUtterance.voice = voices[voiceSelect.value];
+  }
 
   synth.speak(currentUtterance);
   audioBtn.innerText = "Stop";
@@ -130,7 +158,6 @@ function setThemeAnimated() {
 // ===== Quote Rendering =====
 function renderNewQuote() {
 
-  // Stop audio when quote changes
   if (synth.speaking) synth.cancel();
   audioBtn.innerText = "Play";
 
@@ -159,7 +186,6 @@ difficultySelect.addEventListener("change", () => {
 // ===== Typing Logic =====
 inputField.addEventListener('input', () => {
 
-  // ⭐ AUTO PAUSE AUDIO WHEN USER STARTS TYPING
   if (synth.speaking) {
     synth.cancel();
     audioBtn.innerText = "Play";

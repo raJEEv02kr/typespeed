@@ -14,6 +14,22 @@
 
     <div class="top-bar">
 
+        <!-- ⭐ AUDIO CONTROLS (ONLY ONE BLOCK) -->
+        <label>
+            Audio:
+            <button id="audio-btn">Play</button>
+
+            <select id="audio-speed">
+                <option value="0.75">0.75x</option>
+                <option value="1" selected>1x</option>
+                <option value="1.25">1.25x</option>
+            </select>
+
+            <select id="voice-select">
+                <option value="">System Voice</option>
+            </select>
+        </label>
+
         <label>
             Difficulty:
             <select id="difficulty">
@@ -46,18 +62,6 @@
             <input type="range" id="glow-slider" min="5" max="50" value="20" />
         </label>
 
-        <!-- ⭐ UPDATED AUDIO CONTROL WITH SPEED -->
-        <label>
-            Audio:
-            <button id="audio-btn">Play</button>
-
-            <select id="audio-speed">
-                <option value="0.75">0.75x</option>
-                <option value="1" selected>1x</option>
-                <option value="1.25">1.25x</option>
-            </select>
-        </label>
-
     </div>
 
     <div class="container">
@@ -75,7 +79,6 @@
 
         <textarea id="input-field" placeholder="Start typing here..."></textarea>
 
-        <!-- Virtual Keyboard Visualizer -->
         <div id="keyboard-visualizer" aria-hidden="true"></div>
 
         <button id="reset-btn">Restart</button>
